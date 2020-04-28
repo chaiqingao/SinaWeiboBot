@@ -15,6 +15,9 @@ class FollowTVPlayFunc(Func):
     def func(self):
         text_last = self.data['data']['text']
         r = requests.get(self.DETAIL_URL, timeout=5)
+        index = r.text.find('?btwaf=')
+        if index != -1:
+            r = requests.get(self.DETAIL_URL + r.text[index:index+15], timeout=5)
         html = BeautifulSoup(r.text, 'lxml')
         pic = html.find_all('img', {'class': 'lazyload'})[0].attrs['data-original']
         title = html.find_all('h1')[0].text
