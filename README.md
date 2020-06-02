@@ -1,6 +1,8 @@
 # SinaWeiboBot
 新浪微博机器人
 
+demo: [@追更bot](https://weibo.com/u/7429317732)（部署在一块树莓派上）
+
 ## 依赖
 
 - Python3
@@ -13,7 +15,7 @@
 ```shell script
 git clone https://github.com/chaiqingao/SinaWeiboBot.git
 cd SinaWeiboBot
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 
 ## 准备工作
@@ -41,19 +43,24 @@ scheduler.add_job(follow_tv_play_fun.do, 'interval', minutes=10)
 
 ```python
 poetry_func = PoetryFunc(client, './data/Poetry.json')
-# days为执行间隔，start_date为开始执行时间
-scheduler.add_job(poetry_func.do, 'interval', days=1, start_date='2020-4-12 18:00:00')
+# 定时任务，每日8点执行
+scheduler.add_job(poetry_func.do, 'cron', hour=8)
 ```
 
 ### 每日一句任务
 ```python
 english_today_fun = EnglishTodayFunc(client, './data/EnglishToday.json')
-# days为执行间隔，start_date为开始执行时间
-scheduler.add_job(english_today_fun.do, 'interval', days=1, start_date='2020-4-12 08:00:00')
+# 定时任务，每日18点执行
+scheduler.add_job(english_today_fun.do, 'cron', hour=18)
 ```
+
+有关定时任务的更多设置方式请参见[Advanced Python Scheduler](https://apscheduler.readthedocs.io/en/stable/)
 
 ## 启动
 
 ```shell script
 python main.py
 ```
+
+## To Do
+- [ ] 长文字转图片，以便发送长微博
