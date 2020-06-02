@@ -14,6 +14,6 @@ if __name__ == '__main__':
     english_today_fun = EnglishTodayFunc(client, './data/EnglishToday.json')
     poetry_func = PoetryFunc(client, './data/Poetry.json')
     scheduler.add_job(follow_tv_play_fun.do, 'interval', minutes=10)
-    scheduler.add_job(english_today_fun.do, 'interval', days=1, start_date='2020-4-12 08:00:00')
-    scheduler.add_job(poetry_func.do, 'interval', days=1, start_date='2020-4-12 18:00:00')
+    scheduler.add_job(english_today_fun.do, 'cron', hour=8)
+    scheduler.add_job(poetry_func.do, 'cron', hour=18)
     scheduler.start()
