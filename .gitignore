@@ -131,3 +131,4 @@ dmypy.json
 .idea
 tmp
 data
+app.sh

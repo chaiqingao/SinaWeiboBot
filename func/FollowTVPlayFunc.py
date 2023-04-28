@@ -5,10 +5,10 @@ from func.Func import Func
 
 
 class FollowTVPlayFunc(Func):
-    def __init__(self, client, data_path, code, weibo_id):
+    def __init__(self, client, data_path, code, weibo_ids):
         super().__init__(client, data_path, {'text': ''})
         self.code = code
-        self.weibo_id = weibo_id
+        self.weibo_ids = weibo_ids
         self.ROOT_URL = 'https://www.zxzj.me'
         self.DETAIL_URL = self.ROOT_URL + '/detail/' + self.code
 
@@ -26,6 +26,7 @@ class FollowTVPlayFunc(Func):
         url = self.ROOT_URL + a.attrs['href']
         self.data['data']['text'] = text
         if text != text_last:
-            self.client.post(status='@{} 你关注的{}更新至{}了，视频链接：{}'.
-                             format(self.weibo_id, title, text, url), pic=pic)
+            at = ''.join(list(map(lambda x: '@'+x+' ', self.weibo_ids)))
+            self.client.post(status='{} 你{}关注的{}更新至{}了，视频链接：{}'.
+                             format(at, '们' if len(self.weibo_ids) > 1 else '', title, text, url), pic=pic)
             self.log('Successfully post!')
